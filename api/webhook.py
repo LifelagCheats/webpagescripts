@@ -20,8 +20,8 @@ def handler(request, context):
                 'body': json.dumps({'message': 'Missing name or suggestion'})
             }
 
-        discord_webhook_url = 'YOUR_DISCORD_WEBHOOK_URL'
-        discord_user_id = 'YOUR_DISCORD_USER_ID'
+        discord_webhook_url = 'https://discord.com/api/webhooks/1277630862426378342/1wzLN_plfBLVLau1j6LwPoRFuPKppllf8Hv7_2c8ZeUD4vG6SuTcVjup68ZJapRzxhUC'
+        discord_user_id = '910960775961669642'
 
         webhook = DiscordWebhook(url=discord_webhook_url)
         embed = DiscordEmbed(title='New Suggestion', color='03b2f8')
@@ -37,7 +37,7 @@ def handler(request, context):
             'body': json.dumps({'message': 'Suggestion sent!'})
         }
         response['headers'] = {
-            'Access-Control-Allow-Origin': 'https://webpagescript.vercel.app', # Your GitHub Pages domain
+            'Access-Control-Allow-Origin': 'https://lifelagcheats.github.io/webpagescripts/', # Your GitHub Pages domain
             'Access-Control-Allow-Methods': 'POST',
             'Access-Control-Allow-Headers': 'Content-Type'
         }
