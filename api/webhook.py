@@ -15,10 +15,15 @@ def handler(request, context):
         suggestion = data.get('suggestion')
 
         if not name or not suggestion:
-            return {
-                'statusCode': HTTPStatus.BAD_REQUEST.value,
-                'body': json.dumps({'message': 'Missing name or suggestion'})
-            }
+             return {
+        'statusCode': HTTPStatus.OK.value,
+        'body': json.dumps({'message': 'Suggestion sent!'}),
+        'headers': {
+            'Access-Control-Allow-Origin': 'https://webpagescript.vercel.app', # Replace with your GitHub Pages domain
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Content-Type',
+        }
+    }
 
         discord_webhook_url = 'https://discord.com/api/webhooks/1277630862426378342/1wzLN_plfBLVLau1j6LwPoRFuPKppllf8Hv7_2c8ZeUD4vG6SuTcVjup68ZJapRzxhUC'  # Replace with your Discord webhook URL
         discord_user_id = '910960775961669642'      # Replace with your Discord user ID
