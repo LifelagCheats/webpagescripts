@@ -2,7 +2,7 @@ from http import HTTPStatus
 import json
 from discord_webhook import DiscordWebhook, DiscordEmbed
 
-def handler(request, context): 
+def handler(request, context):
     if request.method != 'POST':
         return {
             'statusCode': HTTPStatus.METHOD_NOT_ALLOWED.value,
@@ -15,18 +15,13 @@ def handler(request, context):
         suggestion = data.get('suggestion')
 
         if not name or not suggestion:
-             return {
-        'statusCode': HTTPStatus.OK.value,
-        'body': json.dumps({'message': 'Suggestion sent!'}),
-        'headers': {
-            'Access-Control-Allow-Origin': 'https://webpagescript.vercel.app', # Replace with your GitHub Pages domain
-            'Access-Control-Allow-Methods': 'POST',
-            'Access-Control-Allow-Headers': 'Content-Type',
-        }
-    }
+            return {
+                'statusCode': HTTPStatus.BAD_REQUEST.value,
+                'body': json.dumps({'message': 'Missing name or suggestion'})
+            }
 
-        discord_webhook_url = 'https://discord.com/api/webhooks/1277630862426378342/1wzLN_plfBLVLau1j6LwPoRFuPKppllf8Hv7_2c8ZeUD4vG6SuTcVjup68ZJapRzxhUC'  # Replace with your Discord webhook URL
-        discord_user_id = '910960775961669642'      # Replace with your Discord user ID
+        discord_webhook_url = 'YOUR_DISCORD_WEBHOOK_URL'
+        discord_user_id = 'YOUR_DISCORD_USER_ID'
 
         webhook = DiscordWebhook(url=discord_webhook_url)
         embed = DiscordEmbed(title='New Suggestion', color='03b2f8')
@@ -36,14 +31,21 @@ def handler(request, context):
         webhook.add_embed(embed)
         webhook.execute()
 
-        return {
+        # Correct way to add CORS headers:
+        response = {
             'statusCode': HTTPStatus.OK.value,
             'body': json.dumps({'message': 'Suggestion sent!'})
         }
+        response['headers'] = {
+            'Access-Control-Allow-Origin': 'https://webpagescript.vercel.app', # Your GitHub Pages domain
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Content-Type'
+        }
+        return response
 
     except Exception as e:
         print(f"Error: {e}")
         return {
             'statusCode': HTTPStatus.INTERNAL_SERVER_ERROR.value,
             'body': json.dumps({'message': 'Error sending suggestion'})
-        } 
+        }
