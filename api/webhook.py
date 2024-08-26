@@ -6,7 +6,12 @@ def handler(request, context):
     if request.method != 'POST':
         return {
             'statusCode': HTTPStatus.METHOD_NOT_ALLOWED.value,
-            'body': json.dumps({'message': 'Method Not Allowed'})
+            'body': json.dumps({'message': 'Method Not Allowed'}),
+            'headers': {
+                'Access-Control-Allow-Origin': 'https://lifelagcheats.github.io/webpagescripts/',
+                'Access-Control-Allow-Methods': 'POST',
+                'Access-Control-Allow-Headers': 'Content-Type'
+            }
         }
 
     try:
@@ -17,7 +22,12 @@ def handler(request, context):
         if not name or not suggestion:
             return {
                 'statusCode': HTTPStatus.BAD_REQUEST.value,
-                'body': json.dumps({'message': 'Missing name or suggestion'})
+                'body': json.dumps({'message': 'Missing name or suggestion'}),
+                'headers': {
+                    'Access-Control-Allow-Origin': 'https://lifelagcheats.github.io/webpagescripts/',
+                    'Access-Control-Allow-Methods': 'POST',
+                    'Access-Control-Allow-Headers': 'Content-Type'
+                }
             }
 
         discord_webhook_url = 'https://discord.com/api/webhooks/1277630862426378342/1wzLN_plfBLVLau1j6LwPoRFuPKppllf8Hv7_2c8ZeUD4vG6SuTcVjup68ZJapRzxhUC'
@@ -31,21 +41,24 @@ def handler(request, context):
         webhook.add_embed(embed)
         webhook.execute()
 
-        # Correct way to add CORS headers:
-        response = {
+        return {
             'statusCode': HTTPStatus.OK.value,
-            'body': json.dumps({'message': 'Suggestion sent!'})
+            'body': json.dumps({'message': 'Suggestion sent!'}),
+            'headers': {
+                'Access-Control-Allow-Origin': 'https://lifelagcheats.github.io/webpagescripts/',
+                'Access-Control-Allow-Methods': 'POST',
+                'Access-Control-Allow-Headers': 'Content-Type'
+            }
         }
-        response['headers'] = {
-            'Access-Control-Allow-Origin': 'https://lifelagcheats.github.io/webpagescripts/', # Your GitHub Pages domain
-            'Access-Control-Allow-Methods': 'POST',
-            'Access-Control-Allow-Headers': 'Content-Type'
-        }
-        return response
 
     except Exception as e:
         print(f"Error: {e}")
         return {
             'statusCode': HTTPStatus.INTERNAL_SERVER_ERROR.value,
-            'body': json.dumps({'message': 'Error sending suggestion'})
+            'body': json.dumps({'message': 'Error sending suggestion'}),
+            'headers': {
+                'Access-Control-Allow-Origin': 'https://lifelagcheats.github.io/webpagescripts/',
+                'Access-Control-Allow-Methods': 'POST',
+                'Access-Control-Allow-Headers': 'Content-Type'
+            }
         }
